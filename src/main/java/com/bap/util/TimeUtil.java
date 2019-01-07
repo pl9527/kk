@@ -10,19 +10,9 @@ package com.bap.util;
 public class TimeUtil {
 111111111
 22222222222
-<<<<<<< HEAD
-
-3333333333
-
-
-4444444444
-=======
 333333333
 44444444
 55555555
 66666666
-
-
-sadkjakdjakjdgajdg
->>>>>>> 2e03b1df90fca8b784164198dfff8ca7e094b913
+77777777
 }
