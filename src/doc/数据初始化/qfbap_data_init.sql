@@ -1,8 +1,7 @@
-
-DROP DATABASE IF EXISTS qfbap_ods;
-create DATABASE if not exists qfbap_dm;
-CREATE DATABASE qfbap_ods;
-USE qfbap_ods;
+DROP DATABASE IF EXISTS szbap_ods;
+create DATABASE if not exists szbap_dm;
+CREATE DATABASE szbap_ods;
+USE szbap_ods;
 
 
 SET GLOBAL event_scheduler = 1;
@@ -294,11 +293,11 @@ CREATE  FUNCTION `get_constellation`(birthday DATETIME) RETURNS VARCHAR(64) CHAR
 BEGIN
   DECLARE result VARCHAR(64);
   SET @dt=SUBSTRING(DATE_FORMAT(birthday,'%Y%m%d'),5,4);
-  SELECT 
+  SELECT
   (CASE WHEN @dt BETWEEN '0120' AND '0218' THEN '水瓶座'
   		WHEN @dt BETWEEN '0219' AND '0320' THEN '双鱼座'
-  		WHEN @dt BETWEEN '0321' AND '0419' THEN '白羊座' 
-  		WHEN @dt BETWEEN '0420' AND '0520' THEN '金牛座' 
+  		WHEN @dt BETWEEN '0321' AND '0419' THEN '白羊座'
+  		WHEN @dt BETWEEN '0420' AND '0520' THEN '金牛座'
   		WHEN @dt BETWEEN '0521' AND '0621' THEN '双子座'
   		WHEN @dt BETWEEN '0622' AND '0722' THEN '巨蟹座'
   		WHEN @dt BETWEEN '0723' AND '0822' THEN '狮子座'
@@ -308,7 +307,7 @@ BEGIN
   		WHEN @dt BETWEEN '1123' AND '1221' THEN '射手座'
   		ELSE '摩羯座'
   	END
-  ) 
+  )
   INTO result;
   RETURN result;
 END //
@@ -344,7 +343,7 @@ BEGIN
    DECLARE i_2 VARCHAR(3);
    DECLARE i_3 VARCHAR(3);
    DECLARE i_4 VARCHAR(3);
-   
+
    SET i_1 = FLOOR(36 + RAND() * (222 - 36 + 1));
    SET i_2 = FLOOR(0 + RAND() * (255 - 0 + 1));
    SET i_3 = FLOOR(0 + RAND() * (255 - 0 + 1));
@@ -366,7 +365,7 @@ END //
 
 DELIMITER //
 
-CREATE  FUNCTION `rand_user_name`(n INT) RETURNS VARCHAR(255) 
+CREATE  FUNCTION `rand_user_name`(n INT) RETURNS VARCHAR(255)
 BEGIN
     DECLARE chars VARCHAR(62) DEFAULT 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     DECLARE result VARCHAR(255) DEFAULT '';
@@ -397,11 +396,11 @@ BEGIN
 		SET @city_level=FLOOR(1+RAND()*4);
 		SET @e_mail='';
 		WHILE @e_mail = '' DO
-			SELECT CONCAT(@user_name,suffix),op_mail INTO @e_mail,@op_mail FROM code_email_suffix WHERE id=FLOOR(1+RAND()*15) LIMIT 1; 
+			SELECT CONCAT(@user_name,suffix),op_mail INTO @e_mail,@op_mail FROM code_email_suffix WHERE id=FLOOR(1+RAND()*15) LIMIT 1;
 		END WHILE;
 		SET @mobile = rand_mobile();
 		SELECT @mobile;
-		SET @num_seg_mobile = SUBSTRING(@mobile，1,3);
+		SET @num_seg_mobile = SUBSTRING(@mobile,1,3);
 		SET @op_Mobile='中国';
 		SET @register_time= rand_date('2018-1-1');
 		SET @login_ip=rand_ip();
@@ -414,61 +413,61 @@ BEGIN
 		SELECT edu_name INTO @education FROM code_education WHERE id= FLOOR(1+RAND()*7) LIMIT 1;
 		SET @monthly_income =FLOOR(20000+RAND()*80000);
 		SELECT pro_name INTO @profession FROM code_profession WHERE id=FLOOR(1+RAND()*4) LIMIT 1;
-		INSERT INTO `qfbap_ods`.`user` 
+		INSERT INTO `szbap_ods`.`user`
 			(
-			`user_name`, 
-			`user_gender`, 
-			`user_birthday`, 
-			`user_age`, 
-			`constellation`, 
-			`province`, 
-			`city`, 
-			`city_level`, 
-			`e_mail`, 
-			`op_mail`, 
-			`mobile`, 
-			`num_seg_mobile`, 
-			`op_Mobile`, 
-			`register_time`, 
-			`login_ip`, 
-			`login_source`, 
-			`request_user`, 
-			`total_score`, 
-			`used_score`, 
-			`is_blacklist`, 
-			`is_married`, 
-			`education`, 
-			`monthly_income`, 
-			`profession`, 
+			`user_name`,
+			`user_gender`,
+			`user_birthday`,
+			`user_age`,
+			`constellation`,
+			`province`,
+			`city`,
+			`city_level`,
+			`e_mail`,
+			`op_mail`,
+			`mobile`,
+			`num_seg_mobile`,
+			`op_Mobile`,
+			`register_time`,
+			`login_ip`,
+			`login_source`,
+			`request_user`,
+			`total_score`,
+			`used_score`,
+			`is_blacklist`,
+			`is_married`,
+			`education`,
+			`monthly_income`,
+			`profession`,
 			`create_date`
 			)
 			SELECT
-				@user_name, 
-				@user_gender, 
-				@user_birthday, 
-				@user_age, 
-				@constellation, 
-				@province, 
-				@city, 
-				@city_level, 
-				@e_mail, 
-				@op_mail, 
-				@mobile, 
-				@num_seg_mobile, 
-				@op_Mobile, 
-				@register_time, 
-				@login_ip, 
-				@login_source, 
-				@request_user, 
-				@total_score, 
-				@used_score, 
-				@is_blacklist, 
-				@is_married, 
-				@education, 
-				@monthly_income, 
-				@profession, 
+				@user_name,
+				@user_gender,
+				@user_birthday,
+				@user_age,
+				@constellation,
+				@province,
+				@city,
+				@city_level,
+				@e_mail,
+				@op_mail,
+				@mobile,
+				@num_seg_mobile,
+				@op_Mobile,
+				@register_time,
+				@login_ip,
+				@login_source,
+				@request_user,
+				@total_score,
+				@used_score,
+				@is_blacklist,
+				@is_married,
+				@education,
+				@monthly_income,
+				@profession,
 				NOW();
-		
+
 		-- 获取插入的用户id
 		SET @addr_rn= 1;
 		SET @user_id=LAST_INSERT_ID();
@@ -480,26 +479,26 @@ BEGIN
 			SET @addr_rn = @addr_rn+1;
 		END WHILE;
 		-- 插入用户的扩展信息
-		INSERT INTO `qfbap_ods`.`user_extend` 
-			(`user_id`, 
-			`user_gender`, 
-			`is_pregnant_woman`, 
-			`is_have_children`, 
-			`is_have_car`, 
-			`phone_brand`, 
-			`phone_brand_level`, 
-			`phone_cnt`, 
-			`change_phone_cnt`, 
-			`is_maja`, 
-			`majia_account_cnt`, 
-			`loyal_model`, 
-			`shopping_type_model`, 
-			`weight`, 
+		INSERT INTO `szbap_ods`.`user_extend`
+			(`user_id`,
+			`user_gender`,
+			`is_pregnant_woman`,
+			`is_have_children`,
+			`is_have_car`,
+			`phone_brand`,
+			`phone_brand_level`,
+			`phone_cnt`,
+			`change_phone_cnt`,
+			`is_maja`,
+			`majia_account_cnt`,
+			`loyal_model`,
+			`shopping_type_model`,
+			`weight`,
 			`height`
 			)
-		SELECT 
+		SELECT
 			@user_id,
-			@user_gender, 
+			@user_gender,
 			0 is_pregnant_woman,
 			0 is_have_children,
 			0 is_have_car,
@@ -513,9 +512,9 @@ BEGIN
 			'理智消费用户' shopping_type_model,
 			80+RAND()*200 weight,
 			120+RAND()*200 height;
-		
+
 		SET @rn = @rn+1;
-		
+
 	END WHILE;
 END //
 
@@ -537,7 +536,7 @@ BEGIN
 		SET @city_level=FLOOR(1+RAND()*4);
 		SET @e_mail='';
 		WHILE @e_mail = '' DO
-			SELECT CONCAT(@user_name,suffix),op_mail INTO @e_mail,@op_mail FROM code_email_suffix WHERE id=FLOOR(1+RAND()*15) LIMIT 1; 
+			SELECT CONCAT(@user_name,suffix),op_mail INTO @e_mail,@op_mail FROM code_email_suffix WHERE id=FLOOR(1+RAND()*15) LIMIT 1;
 		END WHILE;
 		SET @mobile = rand_mobile();
 		SET @num_seg_mobile = SUBSTRING(@mobile,1,3);
@@ -553,61 +552,61 @@ BEGIN
 		SELECT edu_name INTO @education FROM code_education WHERE id= FLOOR(1+RAND()*7) LIMIT 1;
 		SET @monthly_income =FLOOR(20000+RAND()*80000);
 		SELECT pro_name INTO @profession FROM code_profession WHERE id=FLOOR(1+RAND()*4) LIMIT 1;
-		INSERT INTO `qfbap_ods`.`user` 
+		INSERT INTO `szbap_ods`.`user`
 			(
-			`user_name`, 
-			`user_gender`, 
-			`user_birthday`, 
-			`user_age`, 
-			`constellation`, 
-			`province`, 
-			`city`, 
-			`city_level`, 
-			`e_mail`, 
-			`op_mail`, 
-			`mobile`, 
-			`num_seg_mobile`, 
-			`op_Mobile`, 
-			`register_time`, 
-			`login_ip`, 
-			`login_source`, 
-			`request_user`, 
-			`total_score`, 
-			`used_score`, 
-			`is_blacklist`, 
-			`is_married`, 
-			`education`, 
-			`monthly_income`, 
-			`profession`, 
+			`user_name`,
+			`user_gender`,
+			`user_birthday`,
+			`user_age`,
+			`constellation`,
+			`province`,
+			`city`,
+			`city_level`,
+			`e_mail`,
+			`op_mail`,
+			`mobile`,
+			`num_seg_mobile`,
+			`op_Mobile`,
+			`register_time`,
+			`login_ip`,
+			`login_source`,
+			`request_user`,
+			`total_score`,
+			`used_score`,
+			`is_blacklist`,
+			`is_married`,
+			`education`,
+			`monthly_income`,
+			`profession`,
 			`create_date`
 			)
 			SELECT
-				@user_name, 
-				@user_gender, 
-				@user_birthday, 
-				@user_age, 
-				@constellation, 
-				@province, 
-				@city, 
-				@city_level, 
-				@e_mail, 
-				@op_mail, 
-				@mobile, 
-				@num_seg_mobile, 
-				@op_Mobile, 
-				@register_time, 
-				@login_ip, 
-				@login_source, 
-				@request_user, 
-				@total_score, 
-				@used_score, 
-				@is_blacklist, 
-				@is_married, 
-				@education, 
-				@monthly_income, 
-				@profession, 
+				@user_name,
+				@user_gender,
+				@user_birthday,
+				@user_age,
+				@constellation,
+				@province,
+				@city,
+				@city_level,
+				@e_mail,
+				@op_mail,
+				@mobile,
+				@num_seg_mobile,
+				@op_Mobile,
+				@register_time,
+				@login_ip,
+				@login_source,
+				@request_user,
+				@total_score,
+				@used_score,
+				@is_blacklist,
+				@is_married,
+				@education,
+				@monthly_income,
+				@profession,
 				NOW();
-		
+
 		-- 获取插入的用户id
 		SET @addr_rn= 1;
 		SET @user_id=LAST_INSERT_ID();
@@ -619,26 +618,26 @@ BEGIN
 			SET @addr_rn = @addr_rn+1;
 		END WHILE;
 		-- 插入用户的扩展信息
-		INSERT INTO `qfbap_ods`.`user_extend` 
-			(`user_id`, 
-			`user_gender`, 
-			`is_pregnant_woman`, 
-			`is_have_children`, 
-			`is_have_car`, 
-			`phone_brand`, 
-			`phone_brand_level`, 
-			`phone_cnt`, 
-			`change_phone_cnt`, 
-			`is_maja`, 
-			`majia_account_cnt`, 
-			`loyal_model`, 
-			`shopping_type_model`, 
-			`weight`, 
+		INSERT INTO `szbap_ods`.`user_extend`
+			(`user_id`,
+			`user_gender`,
+			`is_pregnant_woman`,
+			`is_have_children`,
+			`is_have_car`,
+			`phone_brand`,
+			`phone_brand_level`,
+			`phone_cnt`,
+			`change_phone_cnt`,
+			`is_maja`,
+			`majia_account_cnt`,
+			`loyal_model`,
+			`shopping_type_model`,
+			`weight`,
 			`height`
 			)
-		SELECT 
+		SELECT
 			@user_id,
-			@user_gender, 
+			@user_gender,
 			0 is_pregnant_woman,
 			0 is_have_children,
 			0 is_have_car,
@@ -655,7 +654,7 @@ BEGIN
 		CALL usp_user_order_init(@user_id);
 		CALL us_create_visit_log(@user_id);
 		SET @rn = @rn+1;
-		
+
 	END WHILE;
 END //
 
@@ -679,7 +678,7 @@ BEGIN
 	  WHILE @seller_id ='' OR @seller_id IS NULL DO
 		SELECT seller_id INTO @seller_id FROM code_shop WHERE seller_id = FLOOR(RAND()*96) LIMIT 1;
 	  END WHILE;
-	  
+
 	  -- 抽一条商品
 	  SELECT goods_id,goods_name,
 		goods_no,FLOOR(1+RAND()*5) goods_amount,seller_id shop_id,seller_name shop_name,
@@ -691,38 +690,38 @@ BEGIN
 	  FROM code_goods
 	  WHERE seller_id=@seller_id
 	  LIMIT 1;
-	  
+
 	  -- 计算总价
 	  SET @order_money = @goods_amount*@cost_price;
 	  INSERT INTO `us_order` (order_no,order_date,user_id,user_name,order_money,order_type,order_status,pay_status,pay_type,order_source,update_time)
 	  SELECT @order_no,@order_date,@user_id,@user_name,@order_money,1,1,1,1,'',NOW();
-	  
+
 	  SET @order_id = LAST_INSERT_ID();
-	  
-	  
+
+
 	  INSERT INTO order_item(user_id,order_id,order_no,goods_id,goods_no,goods_name,goods_amount,shop_id,shop_name,
 			curr_price,market_price,discount,cost_price,first_cart,first_cart_name,second_cart,second_cart_name,
 			third_cart,third_cart_name,goods_desc)
 	  SELECT @user_id,@order_id,@order_no,@goods_id,@goods_no,@goods_name,@goods_amount,@shop_id,@shop_name,
 		@curr_price,@market_price,@discount,@cost_price,@first_cart,@first_cart_name,@second_cart,@second_cart_name,
 		@third_cart,@third_cart_name,@goods_desc;
-		
+
 	  -- 随机抽取一个用户的地址类型
-	  
+
 	  SELECT addr_id,order_addr
 	  INTO @addr_id,@order_addr
 	  FROM user_addr a
 	  JOIN code_city c ON a.arear_id = c.id
 	  WHERE user_id = @user_id AND user_order_flag = FLOOR(1+RAND()*3)
 	  LIMIT 1;
-	  
+
 	  -- 插入送货地址表
 	  INSERT INTO order_delivery(order_id,order_no,consignee,area_id,area_name,address,mobile,phone,coupon_id,coupon_money,carriage_money,create_time,update_time,addr_id)
 	  SELECT @order_id,@order_no,@user_name,@addr_id ,@addr_id  , @order_addr ,@mobile ,@mobile ,
 		0 , 0 ,FLOOR(10+RAND()*(30-10+1)) , NOW() create_time,NOW() update_time,@addr_id;
 	SET @rn = @rn+1;
   END WHILE;
-  
+
 END //
 
 
@@ -730,18 +729,18 @@ DELIMITER //
 
 CREATE PROCEDURE `usp_user_order_init`(user_id BIGINT)
 BEGIN
-	
+
 	  -- 插入订单表
 	  SET @order_no = rand_user_name(11); -- 订单编号
 	  SET @order_date = DATE_ADD(NOW(),INTERVAL -1*(1+RAND()*216000) SECOND);  -- 订单日期
-	  
+
 	  SET @user_id = user_id; -- 用户id
 	  -- 随机抽取一个商家
 	  SET @seller_id = '';
 	  WHILE @seller_id ='' OR @seller_id IS NULL DO
 		SELECT seller_id INTO @seller_id FROM code_shop WHERE seller_id = FLOOR(RAND()*96) LIMIT 1;
 	  END WHILE;
-	  
+
 	  -- 抽一条商品
 	  SELECT goods_id,goods_name,
 		goods_no,FLOOR(1+RAND()*5) goods_amount,seller_id shop_id,seller_name shop_name,
@@ -753,38 +752,38 @@ BEGIN
 	  FROM code_goods
 	  WHERE seller_id=@seller_id
 	  LIMIT 1;
-	  
+
 	  -- 计算总价
 	  SET @order_money = @goods_amount*@cost_price;
 	  INSERT INTO `us_order` (order_no,order_date,user_id,user_name,order_money,order_type,order_status,pay_status,pay_type,order_source,update_time)
 	  SELECT @order_no,@order_date,@user_id,@user_name,@order_money,1,1,1,1,'',NOW();
-	  
+
 	  SET @order_id = LAST_INSERT_ID();
-	  
-	  
+
+
 	  INSERT INTO order_item(user_id,order_id,order_no,goods_id,goods_no,goods_name,goods_amount,shop_id,shop_name,
 			curr_price,market_price,discount,cost_price,first_cart,first_cart_name,second_cart,second_cart_name,
 			third_cart,third_cart_name,goods_desc)
 	  SELECT @user_id,@order_id,@order_no,@goods_id,@goods_no,@goods_name,@goods_amount,@shop_id,@shop_name,
 		@curr_price,@market_price,@discount,@cost_price,@first_cart,@first_cart_name,@second_cart,@second_cart_name,
 		@third_cart,@third_cart_name,@goods_desc;
-		
+
 	  -- 随机抽取一个用户的地址类型
-	  
+
 	  SELECT addr_id,order_addr
 	  INTO @addr_id,@order_addr
 	  FROM user_addr a
 	  JOIN code_city c ON a.arear_id = c.id
 	  WHERE user_id = @user_id AND user_order_flag = FLOOR(1+RAND()*3)
 	  LIMIT 1;
-	  
+
 	  -- 插入送货地址表
 	  INSERT INTO order_delivery(order_id,order_no,consignee,area_id,area_name,address,mobile,phone,coupon_id,coupon_money,carriage_money,create_time,update_time,addr_id)
 	  SELECT @order_id,@order_no,@user_name,@addr_id ,@addr_id  , @order_addr ,@mobile ,@mobile ,
 		0 , 0 ,FLOOR(10+RAND()*(30-10+1)) , NOW() create_time,NOW() update_time,@addr_id;
 	SET @rn = @rn+1;
-	
-  
+
+
 END //
 
 
@@ -801,8 +800,8 @@ BEGIN
 	   LIMIT 1;
 	   INSERT INTO user_pc_click_log(user_id,session_id,cookie_id,visit_time,visit_url,visit_os,browser_name,visit_ip,province,city,page_id,goods_id,shop_id)
 	   SELECT user_id,
-		CONCAT('session_',@rn+@cnt_log),
-		CONCAT('cookie_',@rn),
+		CONCAT('session_',@rn_log+@cnt_log),
+		CONCAT('cookie_',@rn_log),
 		rand_date('2018-12-1'),
 		CONCAT('https://www.ele.me/place/wx4g9xkeyeu',FLOOR(1+RAND()*1000)),
 		'window 10',
@@ -815,7 +814,7 @@ BEGIN
 		FLOOR(1+RAND()*96);
 	  SET @rn_log=@rn_log+1;
 	END WHILE;
-	
+
 	-- 生成 app的访问记录
 	SET @cnt_log = FLOOR(1+RAND()*10);
 	SET @rn_log =1;
@@ -835,7 +834,7 @@ BEGIN
 		@city;
 	  SET @rn_log=@rn_log+1;
 	END WHILE;
-	
+
 END //
 
 
@@ -843,15 +842,8 @@ DELIMITER //
 
 CREATE  EVENT `even_init` ON SCHEDULE EVERY 1 SECOND STARTS '2018-12-17 00:22:00' ON COMPLETION PRESERVE ENABLE DO BEGIN
 	 -- CALL usp_create_user(1000);
-	 CALL usp_create_user_withorder(10);
-	 
+	 -- CALL usp_create_user_withorder(10);
+
 	-- CALL usp_create_login(1000);
 	-- CALL usp_order_init(10);
 END //
-
-
-
-
-
-
-
